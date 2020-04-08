@@ -1,40 +1,97 @@
 /* Base Application Styles */
 body {
-  color: #fff;
+  color: rgb(190, 176, 176);
+  font-family: Arial, Helvetica, sans-serif;
   background: #222;  
-  font-size: 8px;
-}
-
-.index {
+  font-size: medium;
   margin: 20px;
 }
 
-.container {
+
+.fbx {
   display: flex; 
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-content: flex-start;
   padding: 5px;
 }
-
-.item {  
+.fbx .item {
   margin: 2px;
 }
 
-.container  .container {
-  flex-direction: column;
+.fbx.partitions {
+  flex-direction: row;
+}
+
+.fbx.clusters {  
+  flex-direction: row;
   border: 1px solid #FFF8DC;
+}
+
+.fbx.components {
+  flex-direction: row;
+  border: 1px solid rgb(96, 222, 244); 
   
 }
 
-.container .container .container {
-  flex-direction: column;
-  border: 1px solid #F4A460; 
-  
-}
-
-.container .container .container .item {  
+.item.component {  
   border: 1px solid #483D8B;
   border-radius: 10px;
+}
+
+.item.port, .item.vdp {
+  border: 1px solid rgb(97, 97, 228);
+  padding: 2px;
+  font-size: 80%;
+}
+
+.item.port .tooltiptext {
+  font-size: 30px; 
+}
+
+.item.vdp {
+  color: rgb(5, 119, 5);
+  border: 1px solid rgb(151, 151, 241);
+  border-radius: 10px;
+}
+
+
+
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  opacity: 0;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }

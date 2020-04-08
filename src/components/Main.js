@@ -1,22 +1,53 @@
 require('normalize.css/normalize.css');
 require('styles/App.css');
 
+
 import React from 'react';
 
-let yeomanImage = require('../images/yeoman.png');
+//const data = '{"partitions":[{"name": "ebsP"},{"clusters":[{"components":[{"prototypePath":"","asil":"d","cIDLApplication":"ebs","core":"0","cycleTime":"1000","plugins":[],"dataTypes":[],"ports":[],"name":"AReqComp2"},{"prototypePath":"","asil":"b","cIDLApplication":"ebs","core":"0","cycleTime":"5000","plugins":[],"dataTypes":[],"ports":[],"name":"reqComp1"},{"prototypePath":"","asil":"qm","cIDLApplication":"ebs","core":"","cycleTime":"cNO_CYCLE_TIME","plugins":[],"dataTypes":[],"ports":[],"name":"EbsCore_BaseTypes"},{"prototypePath":"","asil":"qm","cIDLApplication":"ebs","core":"0","cycleTime":"cNO_CYCLE_TIME","plugins":[],"dataTypes":[{"category":"BaseType:VALUE","name":"sint8"}],"ports":[{"type":"PPORT","asil":"qm","priority":"T10MS_PRIO1","interfacePath":"/cluster1/composite1/Interfaces/port3","portPrototypePath":"","updateTime":"10000","vdps":[{"dataTypePath":"partition1/cluster1/composite1/sint8","swAddrMethodPath":"/AUTOSAR/DataDefinitions/AddressingMethods/EBS/QM_T10MS_PRIO1","updateTime":"10000","rPorts":[{"requiringComponent":"partition1/cluster1/reqComp1","transferTime":"10000","rteTaskName":"RteCore0Task10msSync10msOut","taskPosition":"301","osTaskPath":"/AUTOSAR/Os/RteCore0Task10msSync10msOut","osApplicationPath":"","name":"port3"}],"name":"port3"}],"transferTime":"10000","rteTaskName":"RteCore0Task10msSync10msOut","taskPosition":"300","osTaskPath":"/AUTOSAR/Os/RteCore0Task10msSync10msOut","osApplicationPath":"","name":"port3"},{"type":"PPORT","asil":"d","priority":"T10MS_PRIO1","interfacePath":"/cluster1/composite1/Interfaces/port2","portPrototypePath":"","updateTime":"10000","vdps":[{"updateTime":"10000","rPorts":[{"requiringComponent":"partition1/cluster1/comp2","transferTime":"10000","rteTaskName":"RteCore0Task10msSafetySync10msOut","taskPosition":"301","osTaskPath":"/AUTOSAR/Os/RteCore0Task10msSafetySync10msOut","osApplicationPath":"","name":"port2"}],"name":"port2"}],"transferTime":"10000","rteTaskName":"RteCore0Task10msSafetySync10msOut","taskPosition":"300","osTaskPath":"/AUTOSAR/Os/RteCore0Task10msSafetySync10msOut","osApplicationPath":"","name":"port2"}],"name":"composite1"},{"prototypePath":"","asil":"qm","cIDLApplication":"ebs","core":"2","cycleTime":"5000","plugins":[],"dataTypes":[{"category":"BaseType:VALUE","name":"sint8"},{"category":"StructType:STRUCTURE","name":"bus_act_val_req_t"},{"category":"BaseType:VALUE","name":"uint16"}],"ports":[{"type":"PPORT","asil":"qm","priority":"T10MS_PRIO2","interfacePath":"/cluster1/ProviderComp/Interfaces/ARHpmOrificeFactor","portPrototypePath":"","updateTime":"5000","vdps":[{"dataTypePath":"partition1/cluster1/ProviderComp/sint8","swAddrMethodPath":"/AUTOSAR/DataDefinitions/AddressingMethods/EBS/QM_T10MS_PRIO2","updateTime":"5000","rPorts":[{"requiringComponent":"/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct","portPrototypePath":"/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARHpmOrificeFactor","transferTime":"5000","rteTaskName":"RteCore2Task5msSync5msOut","taskPosition":"104","osTaskPath":"RteCore2Task5msSync5msOut","osApplicationPath":"","name":"ARHpmOrificeFactor"}],"name":"ARHpmOrificeFactor"}],"transferTime":"5000","rteTaskName":"RteCore2Task5msSync5msOut","taskPosition":"101","osTaskPath":"RteCore2Task5msSync5msOut","osApplicationPath":"","name":"ARHpmOrificeFactor"},{"type":"PPORT","asil":"qm","priority":"T10MS_PRIO2","interfacePath":"/cluster1/ProviderComp/Interfaces/ARSysPrsSigCalibFiltFast","portPrototypePath":"","updateTime":"5000","vdps":[{"dataTypePath":"partition1/cluster1/ProviderComp/bus_act_val_req_t","swAddrMethodPath":"/AUTOSAR/DataDefinitions/AddressingMethods/EBS/QM_T10MS_PRIO2","updateTime":"5000","rPorts":[{"requiringComponent":"/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct","portPrototypePath":"/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARSysPrsSigCalibFiltFast","transferTime":"5000","rteTaskName":"RteCore2Task5msSync5msOut","taskPosition":"105","osTaskPath":"RteCore2Task5msSync5msOut","osApplicationPath":"","name":"ARSysPrsSigCalibFiltFast"}],"name":"ARSysPrsSigCalibFiltFast"}],"transferTime":"5000","rteTaskName":"RteCore2Task5msSync5msOut","taskPosition":"102","osTaskPath":"RteCore2Task5msSync5msOut","osApplicationPath":"","name":"ARSysPrsSigCalibFiltFast"},{"type":"PPORT","asil":"qm","priority":"T10MS_PRIO2","interfacePath":"/cluster1/ProviderComp/Interfaces/ARDbrArbPressureRequest","portPrototypePath":"","updateTime":"5000","vdps":[{"dataTypePath":"partition1/cluster1/ProviderComp/uint16","swAddrMethodPath":"/AUTOSAR/DataDefinitions/AddressingMethods/EBS/QM_T10MS_PRIO2","updateTime":"5000","rPorts":[{"requiringComponent":"/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct","portPrototypePath":"/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARDbrArbPressureRequest","transferTime":"5000","rteTaskName":"RteCore2Task5msSync5msOut","taskPosition":"103","osTaskPath":"RteCore2Task5msSync5msOut","osApplicationPath":"","name":"ARDbrArbPressureRequest"}],"name":"ARDbrArbPressureRequest"}],"transferTime":"5000","rteTaskName":"RteCore2Task5msSync5msOut","taskPosition":"100","osTaskPath":"RteCore2Task5msSync5msOut","osApplicationPath":"","name":"ARDbrArbPressureRequest"}],"name":"ProviderComp"},{"prototypePath":"/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct","asil":"d","cIDLApplication":"ebs","core":"0","cycleTime":"2500","plugins":[],"dataTypes":[],"ports":[],"name":"MKC2HydAct"},{"prototypePath":"/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct","asil":"d","cIDLApplication":"ebs","core":"0","cycleTime":"2500","plugins":[],"dataTypes":[{"category":"NumericType:VALUE","name":"enum_hyd_mode_t"},{"category":"StructType:STRUCTURE","name":"bus_motor_req_t"},{"category":"NumericType:VALUE","name":"enum_modulator_req_t"},{"category":"StructType:STRUCTURE","name":"bus_act_val_req_t"}],"ports":[{"type":"PPORT","asil":"d","priority":"","interfacePath":"/HydAct/MKC2HydAct/MKC2HydAct_if/ActiveHydMode","portPrototypePath":"/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ActiveHydMode","updateTime":"2500","vdps":[{"dataTypePath":"partition1/cluster1/MKC2HydAct_ARXML/enum_hyd_mode_t","swAddrMethodPath":"","updateTime":"2500","rPorts":[{"requiringComponent":"partition1/cluster1/reqComp1","transferTime":"2500","rteTaskName":"RteTaskMKC2HydAct","osTaskPath":"RteTaskMKC2HydAct","osApplicationPath":"","name":"ActiveHydMode_ActiveHydMode"}],"name":"ActiveHydMode_ActiveHydMode"}],"transferTime":"2500","rteTaskName":"RteCore0Task2500usSafetySync2500usOut","osTaskPath":"RteCore0Task2500usSafetySync2500usOut","osApplicationPath":"","name":"ActiveHydMode_ActiveHydMode"},{"type":"PPORT","asil":"d","priority":"","interfacePath":"/HydAct/MKC2HydAct/MKC2HydAct_if/HydActMotorReq","portPrototypePath":"/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARHydActMotorReq","updateTime":"2500","vdps":[{"dataTypePath":"partition1/cluster1/MKC2HydAct_ARXML/bus_motor_req_t","swAddrMethodPath":"","updateTime":"2500","rPorts":[],"name":"ARHydActMotorReq_HydActMotorReq"}],"transferTime":"2500","rteTaskName":"RteCore0Task2500usSafetySync2500usOut","osTaskPath":"RteCore0Task2500usSafetySync2500usOut","osApplicationPath":"","name":"ARHydActMotorReq_HydActMotorReq"},{"type":"PPORT","asil":"d","priority":"","interfacePath":"/HydAct/MKC2HydAct/MKC2HydAct_if/HydActModulatorReq","portPrototypePath":"/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARHydActModulatorReq","updateTime":"2500","vdps":[{"dataTypePath":"partition1/cluster1/MKC2HydAct_ARXML/enum_modulator_req_t","swAddrMethodPath":"","updateTime":"2500","rPorts":[],"name":"ARHydActModulatorReq_HydActModulatorReq"}],"transferTime":"2500","rteTaskName":"RteCore0Task2500usSafetySync2500usOut","osTaskPath":"RteCore0Task2500usSafetySync2500usOut","osApplicationPath":"","name":"ARHydActModulatorReq_HydActModulatorReq"},{"type":"PPORT","asil":"d","priority":"","interfacePath":"/HydAct/MKC2HydAct/MKC2HydAct_if/HydActValveReq","portPrototypePath":"/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARHydActValveReq","updateTime":"2500","vdps":[{"dataTypePath":"partition1/cluster1/MKC2HydAct_ARXML/bus_act_val_req_t","swAddrMethodPath":"","updateTime":"2500","rPorts":[],"name":"ARHydActValveReq_HydActValveReq"}],"transferTime":"2500","rteTaskName":"RteCore0Task2500usSafetySync2500usOut","osTaskPath":"RteCore0Task2500usSafetySync2500usOut","osApplicationPath":"","name":"ARHydActValveReq_HydActValveReq"}],"name":"MKC2HydAct_ARXML"},{"prototypePath":"","asil":"c","cIDLApplication":"ebs","core":"0","cycleTime":"5000","plugins":[],"dataTypes":[{"category":"BaseType:VALUE","name":"sint8"}],"ports":[{"type":"PPORT","asil":"c","priority":"T10MS_PRIO1","interfacePath":"/cluster1/comp2/Interfaces/port4","portPrototypePath":"","updateTime":"5000","vdps":[{"dataTypePath":"partition1/cluster1/comp2/sint8","swAddrMethodPath":"/AUTOSAR/DataDefinitions/AddressingMethods/EBS/T10MS_PRIO1","updateTime":"5000","rPorts":[{"requiringComponent":"partition1/cluster1/composite1","transferTime":"5000","rteTaskName":"RteCore0Task5msSafetySync5msOut","taskPosition":"201","osTaskPath":"/AUTOSAR/Os/RteCore0Task5msSafetySync5msOut","osApplicationPath":"","name":"port4"},{"requiringComponent":"partition1/cluster1/AReqComp2","transferTime":"5000","rteTaskName":"RteCore0Task5msSafetySync5msOut","taskPosition":"202","osTaskPath":"/AUTOSAR/Os/RteCore0Task5msSafetySync5msOut","osApplicationPath":"","name":"port4"}],"name":"port4"}],"transferTime":"5000","rteTaskName":"RteCore0Task5msSafetySync5msOut","taskPosition":"200","osTaskPath":"/AUTOSAR/Os/RteCore0Task5msSafetySync5msOut","osApplicationPath":"","name":"port4"}],"name":"comp2"}],"name":"cluster1"}],"name":"partition1"}],"name":"EBS"}'
 
 class AppComponent extends React.Component {
-  render() {
-    return (
-      <div className="index">
-        <img src={yeomanImage} alt="Yeoman Generator" />
-        <div className="notice">Please edit <code>src/components/Main.js</code> to get started!</div>
-      </div>
-    );
-  }
+	constructor(props) {
+		super(props);
+        this.state = {
+			partitions: [{name: "<PARTITION-NAME>"}]
+        }
+    }
+
+    componentDidMount() {
+		fetch("../dataSmall.json")
+		.then((response) => response.json())
+		.then((data) => this.setState({ "partitions": data.partitions }))
+		
+    }
+
+	render() {		
+		const clustersDiagram = this.state.partitions.map((partition, dx)=>{
+			return <div className="item" key={dx}>
+					{partition.name}
+					<div className="container">						
+						{(partition.clusters || []).map((cluster, dx)=>{return <div className="item" key={dx}>						
+							{cluster.name}
+							<div className="container">
+								{(cluster.components || []).map((component, dx)=>{return <div className="item" key={dx}>
+								{component.name}
+									<div className="container">
+										{(component.ports || []).map((port, dx)=>{
+											return <div key={dx}>{port.name}</div>
+										})}
+									</div>			
+								</div>})}
+							</div>	
+						</div>})}
+					</div>				
+				</div>;
+		});
+
+		return (<div className = "index">			
+			<div className = "container">{clustersDiagram}</div></div>);
+	}
 }
 
-AppComponent.defaultProps = {
-};
+AppComponent.defaultProps = {};
 
 export default AppComponent;

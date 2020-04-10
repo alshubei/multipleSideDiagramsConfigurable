@@ -9,9 +9,9 @@ body {
 
 // flexbox
 .fbx {
-  display: flex; 
+  display: flex;   
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: left;
   align-items: flex-start;
   padding: 5px;
   .item {
@@ -22,6 +22,7 @@ body {
 }
 
 .partitions {
+  flex-direction: row;
   .partition {
     border: 1px solid #FFF8DC;
     background-color: rgb(40, 40, 255);
@@ -29,7 +30,6 @@ body {
 }
 //clusters
 .clusters {  
-  
   .cluster {
     border: 1px solid;
     background-color: rgb(75, 75, 250);
@@ -38,33 +38,31 @@ body {
 
 //components
 .components {
+  flex-direction: row;
   .component {  
     border: 1px solid;
     background-color: rgb(124, 124, 250);
     border: 1px solid #483D8B;
     padding: 4px;
     margin: 2px;
+    &.connected {
+      background-color: green;
+    }
   }
 }
 
 //ports
-
 .port {
-  background-color: rgb(136, 136, 250);
-  width: 15px;
-  height: 45px;
-  overflow: hidden;
+  background-color: rgb(97, 97, 252);
   border: 1px solid;
   font-size: 80%;  
-    &:hover { 
-      width: auto;
-      height: auto;
-      overflow: visible;
-    }
+  width: auto;
+  height: auto;
 }
 
 .item.port .tooltiptext {
-  font-size: 30px; 
+  font-size: 20px; 
+  text-align: left;
 }
 
 .item.vdp {
@@ -77,10 +75,15 @@ body {
   flex-direction: column;
   .vdp {
     background-color: rgb(131, 131, 184);
+    cursor: pointer;
     color: white;
     opacity: .7;
+    &.connected {
+     background-color: green; 
+    }
   }
 }
+
 
 
 //tooltips
@@ -120,4 +123,14 @@ body {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+//temp
+// @mixin transparentBackgroundColorMixin($alpha, $color) {
+//   background-color: rgba(red($color), green($color), blue($color), $alpha);
+// }
+
+.ActiveHydMode {
+}
+.PsmState {
 }

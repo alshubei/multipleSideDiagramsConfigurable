@@ -15,10 +15,11 @@ body {
   align-content: flex-start;
   padding: 5px;
 }
-.fbx .item {
-  margin: 2px;
-}
 
+.item {
+  border-radius: 10px; 
+  margin-right: 3px; 
+}
 .fbx.partitions {
   flex-direction: row;
 }
@@ -31,18 +32,35 @@ body {
 .fbx.components {
   flex-direction: row;
   border: 1px solid rgb(96, 222, 244); 
-  
 }
 
 .item.component {  
   border: 1px solid #483D8B;
-  border-radius: 10px;
+  padding: 4px;
+  margin: 2px;
 }
 
-.item.port, .item.vdp {
+.port, .vdp {
   border: 1px solid rgb(97, 97, 228);
   padding: 2px;
-  font-size: 80%;
+  font-size: 80%;  
+}
+.vdp {
+  opacity: .5;
+}
+.port:hover { 
+  width: auto;
+  min-height: 45px;
+  overflow: visible;
+}
+.port {
+  width: 15px;
+  height: 45px;
+  overflow: hidden;
+  
+  border: 1px solid rgb(97, 97, 228);
+  padding: 2px;
+  font-size: 80%;  
 }
 
 .item.port .tooltiptext {
@@ -50,7 +68,7 @@ body {
 }
 
 .item.vdp {
-  color: rgb(5, 119, 5);
+  color: rgb(90, 124, 90);
   border: 1px solid rgb(151, 151, 241);
   border-radius: 10px;
 }

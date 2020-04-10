@@ -7,60 +7,60 @@ body {
   margin: 20px;
 }
 
-
+// flexbox
 .fbx {
   display: flex; 
   flex-wrap: wrap;
   justify-content: flex-start;
-  align-content: flex-start;
+  align-items: flex-start;
   padding: 5px;
+  .item {
+    padding: 2px;
+    border-radius: 10px; 
+    margin: 2px;     
+  }
 }
 
-.item {
-  border-radius: 10px; 
-  margin-right: 3px; 
+.partitions {
+  .partition {
+    border: 1px solid #FFF8DC;
+    background-color: rgb(40, 40, 255);
+  }
 }
-.fbx.partitions {
-  flex-direction: row;
-}
-
-.fbx.clusters {  
-  flex-direction: row;
-  border: 1px solid #FFF8DC;
-}
-
-.fbx.components {
-  flex-direction: row;
-  border: 1px solid rgb(96, 222, 244); 
+//clusters
+.clusters {  
+  
+  .cluster {
+    border: 1px solid;
+    background-color: rgb(75, 75, 250);
+  }
 }
 
-.item.component {  
-  border: 1px solid #483D8B;
-  padding: 4px;
-  margin: 2px;
+//components
+.components {
+  .component {  
+    border: 1px solid;
+    background-color: rgb(124, 124, 250);
+    border: 1px solid #483D8B;
+    padding: 4px;
+    margin: 2px;
+  }
 }
 
-.port, .vdp {
-  border: 1px solid rgb(97, 97, 228);
-  padding: 2px;
-  font-size: 80%;  
-}
-.vdp {
-  opacity: .5;
-}
-.port:hover { 
-  width: auto;
-  min-height: 45px;
-  overflow: visible;
-}
+//ports
+
 .port {
+  background-color: rgb(136, 136, 250);
   width: 15px;
   height: 45px;
   overflow: hidden;
-  
-  border: 1px solid rgb(97, 97, 228);
-  padding: 2px;
+  border: 1px solid;
   font-size: 80%;  
+    &:hover { 
+      width: auto;
+      height: auto;
+      overflow: visible;
+    }
 }
 
 .item.port .tooltiptext {
@@ -69,13 +69,21 @@ body {
 
 .item.vdp {
   color: rgb(90, 124, 90);
-  border: 1px solid rgb(151, 151, 241);
+  border: 1px solid;
   border-radius: 10px;
 }
 
+.vdps {
+  flex-direction: column;
+  .vdp {
+    background-color: rgb(131, 131, 184);
+    color: white;
+    opacity: .7;
+  }
+}
 
 
-
+//tooltips
 .tooltip {
   position: relative;
   display: inline-block;

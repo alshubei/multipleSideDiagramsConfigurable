@@ -81,13 +81,15 @@ const PortDiagram = (props, key) => {
 	return <div className="item port">
 		<div className="tooltip" key={key} >{'p'+(index+1)}<span className="tooltiptext">{port.name}</span></div> 
 		<br/>
-		{vdps}
+		<div className="fbx vdps">
+			{vdps}
+		</div>
 	</div>
 }
 
 const Vdp = (props, key) => {
 	const { vdp, state, index } = props	
-const Desc = [vdp.name].concat(vdp.rPorts.map(rp=>rp.requiringComponent)).map((x, dx)=><div>{x}</div>)
+	const Desc = [vdp.name].concat(vdp.rPorts.map(rp=>rp.requiringComponent)).map((x, dx)=><div key={dx}>{x}</div>)
 	return <div className="item vdp tooltip" key={key} >{'vdp'+(index+1)}<span className="tooltiptext">{Desc}</span></div>
 }
 

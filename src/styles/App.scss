@@ -2,34 +2,48 @@
 body {
   color: rgb(190, 176, 176);
   font-family: Arial, Helvetica, sans-serif;
-  background: #222;  
+  //background: #222;
   font-size: medium;
   margin: 20px;
 }
 
+.p1 {
+  width: 10px;
+  height: 10px;
+  background: red;
+  position: absolute;
+}
+.p2 {
+  width: 10px;
+  height: 10px;
+  background: red;
+  position: absolute;
+  bottom: 200px;
+  right: 500px;
+}
 // flexbox
 .fbx {
-  display: flex;   
+  display: flex;
   flex-wrap: wrap;
   justify-content: left;
   align-items: flex-start;
   padding: 5px;
   .item {
     padding: 2px;
-    border-radius: 10px; 
-    margin: 2px;     
+    border-radius: 10px;
+    margin: 2px;
   }
 }
 
 .partitions {
   flex-direction: row;
   .partition {
-    border: 1px solid #FFF8DC;
+    border: 1px solid #fff8dc;
     background-color: rgb(40, 40, 255);
   }
 }
 //clusters
-.clusters {  
+.clusters {
   .cluster {
     border: 1px solid;
     background-color: rgb(75, 75, 250);
@@ -39,10 +53,10 @@ body {
 //components
 .components {
   flex-direction: row;
-  .component {  
+  .component {
     border: 1px solid;
     background-color: rgb(124, 124, 250);
-    border: 1px solid #483D8B;
+    border: 1px solid #483d8b;
     padding: 4px;
     margin: 2px;
     &.connected {
@@ -55,13 +69,13 @@ body {
 .port {
   background-color: rgb(97, 97, 252);
   border: 1px solid;
-  font-size: 80%;  
+  font-size: 80%;
   width: auto;
   height: auto;
 }
 
 .item.port .tooltiptext {
-  font-size: 20px; 
+  font-size: 20px;
   text-align: left;
 }
 
@@ -77,14 +91,12 @@ body {
     background-color: rgb(131, 131, 184);
     cursor: pointer;
     color: white;
-    opacity: .7;
+    opacity: 0.7;
     &.connected {
-     background-color: green; 
+      background-color: green;
     }
   }
 }
-
-
 
 //tooltips
 .tooltip {

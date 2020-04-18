@@ -1,8 +1,8 @@
 /* Base Application Styles */
 body {
-  color: rgb(190, 176, 176);
+  color: rgb(70, 68, 68);
   font-family: Arial, Helvetica, sans-serif;
-  //background: #222;
+  background: rgb(167, 158, 158);
   font-size: medium;
   margin: 20px;
 }
@@ -23,30 +23,40 @@ body {
 }
 // flexbox
 .fbx {
+  &.drcol {
+    flex-direction: column;
+  }
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
-  align-items: flex-start;
-  padding: 5px;
-  .item {
-    padding: 2px;
+  .item,
+  .br {
+    padding: 1px;
     border-radius: 10px;
-    margin: 2px;
+    border: 1px solid black;
+    margin: 1px;
+    cursor: pointer;
+    .name {
+      font-size: 70%;
+    }
   }
 }
 
+.connection {
+  align-items: center;
+  justify-content: space-evenly;
+}
+
 .partitions {
-  flex-direction: row;
+  // flex-direction: column;
   .partition {
-    border: 1px solid #fff8dc;
-    background-color: rgb(40, 40, 255);
+    border: 1px solid black;
   }
 }
 //clusters
 .clusters {
   .cluster {
-    border: 1px solid;
-    background-color: rgb(75, 75, 250);
+    border: 1px solid black;
   }
 }
 
@@ -54,46 +64,26 @@ body {
 .components {
   flex-direction: row;
   .component {
-    border: 1px solid;
-    background-color: rgb(124, 124, 250);
-    border: 1px solid #483d8b;
-    padding: 4px;
-    margin: 2px;
+    border: 1px solid black;
     &.connected {
-      background-color: green;
+      border: 1px solid green;
     }
   }
 }
 
 //ports
-.port {
-  background-color: rgb(97, 97, 252);
-  border: 1px solid;
-  font-size: 80%;
-  width: auto;
-  height: auto;
-}
-
 .item.port .tooltiptext {
   font-size: 20px;
   text-align: left;
 }
 
-.item.vdp {
-  color: rgb(90, 124, 90);
-  border: 1px solid;
-  border-radius: 10px;
-}
-
 .vdps {
-  flex-direction: column;
+  // flex-direction: column;
   .vdp {
-    background-color: rgb(131, 131, 184);
+    border: 1px solid black;
     cursor: pointer;
-    color: white;
-    opacity: 0.7;
     &.connected {
-      background-color: green;
+      border: 1px solid green;
     }
   }
 }
@@ -135,14 +125,4 @@ body {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
-}
-
-//temp
-// @mixin transparentBackgroundColorMixin($alpha, $color) {
-//   background-color: rgba(red($color), green($color), blue($color), $alpha);
-// }
-
-.ActiveHydMode {
-}
-.PsmState {
 }

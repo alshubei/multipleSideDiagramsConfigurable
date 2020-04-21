@@ -15,52 +15,70 @@ class ConnectionsView extends Component {
     componentDidMount() {
     }
 
+    createConnectionsForComp(par, cl, comp, conType, k) {
+        const connections = []
+        comp.ports.forEach((port, pDx) => {
+            connections.push(this.createConnectionsForPort(par, cl, comp, port, k++))
+        })
+        return connections
+    }
+
+    createConnectionsForPort(par, cl, comp, port, k) {
+        const connections = []
+        port.vdps.forEach((vdp, vdpDx) => {
+            connections.push(this.createConnectionsForVdp(par, cl, comp, port, vdp, k++))
+        })
+        return connections
+    }
+    createConnectionsForVdp(par, cl, comp, port, vdp, k) {
+        let props = { par, cl, comp, p: port, vdp }
+        return <Connection key={k} {...props} />
+    }
+
     render() {
         const { partitions, state } = this.props
-        // const allComponents = _.flattenDepth(partitions.map(x => (x.clusters || []).map(x => x.components)), 2)
-        // const allVdps = _.flattenDepth(allComponents.map(c => c.ports.map(p => p.vdps)), 2)
-        // const connectionDiagrams = allVdps.filter(vdp => vdp.refs && funcs.isRteVdp(vdp, state)).map((vdp, dx) => {
-        //     const p1 = vdp.refs["vdp_" + vdp.name]
-        //     return vdp.toComps.filter(c => c.component.refs).map((tc, dx) => {
-        //         const comp = tc.component
-        //         const p2 = comp.refs["comp_" + comp.name]
-        //         const p1Rect = p1.getBoundingClientRect()
-        //         const p2Rect = p2.getBoundingClientRect()
-        //         const x1 = p1Rect.left + (p1Rect.width / 2);
-        //         const y1 = p1Rect.top + (p1Rect.height / 2);
-        //         const x2 = p2Rect.left + (p2Rect.width / 2);
-        //         const y2 = p2Rect.top + (p2Rect.height / 2);
-        //         return <line x1={x1 - 30} y1={y1 - 15} x2={x2 - 30} y2={y2 - 40} style={lineStyle} />
+        const connections = []
+        let k = 0
+        const { parIndex, clIndex, compIndex, portIndex, vdpIndex, connectionType, selectedType } = state
+        if (vdpIndex >= 0) {
+            let par = partitions[parIndex]
+            let cl = par.clusters[clIndex]
+            let comp = cl.components[compIndex]
+            let port = comp.ports[portIndex]
+            let vdp = port.vdps[vdpIndex]
+            connections.push(this.createConnectionsForVdp(par, cl, comp, port, vdp, k++))
+        } else if (portIndex >= 0) {
+            let par = partitions[parIndex]
+            let cl = par.clusters[clIndex]
+            let comp = cl.components[compIndex]
+            let port = comp.ports[portIndex]
+            connections.push(this.createConnectionsForPort(par, cl, comp, port, k++))
+        } else if (compIndex >= 0) {
+            let par = partitions[parIndex]
+            let cl = par.clusters[clIndex]
+            let comp = cl.components[compIndex]
+            connections.push(this.createConnectionsForComp(par, cl, comp, connectionType, k++))
+        }
+        // partitions.forEach((par, parDx) => {
+        //     par.clusters.forEach((cl, clDx) => {
+        //         cl.components.forEach((comp, compDx) => {
+        //             if (selectedType == 'component' && parIndex==parDx && clIndex==clDx && compIndex==compDx) {
+        //                 connections.push(this.createConnectionsForComp(par, cl, comp, connectionType, k++))
+        //             } else {
+        //                 comp.ports.forEach((port, pDx) => {
+        //                     if (selectedType == 'port' && parIndex==parDx && clIndex==clDx && compIndex==compDx && portIndex==pDx) {
+        //                         connections.push(this.createConnectionsForPort(par, cl, comp, port, k++))
+        //                     } else
+        //                         port.vdps.forEach((vdp, vdpDx) => {
+        //                             if (selectedType == 'vdp' && parIndex==parDx && clIndex==clDx && compIndex==compDx && vdpIndex==vdpDx) {
+        //                                 connections.push(this.createConnectionsForVdp(par, cl, comp, port, vdp, k++))
+        //                             }
+        //                         })
+        //                 })
+        //             }
+        //         })
         //     })
         // })
-        // const lineStyle = {
-        //     "strokeWidth": "2px",
-        //     "stroke": "red",
-        // }
-        // const svgStyle = {
-        //     "height": "100%",
-        //     "width": "100%",
-        //     "border": "1px solid",
-        //     // "position": "absolute"
-        // }
-        // <svg style={svgStyle}>{connectionDiagrams}</svg>
-        const connections = []
-        const draw = this.props.draw
-        let k = 0
-        partitions.forEach((par, parDx) => {
-            par.clusters.forEach((cl, clDx) => {
-                cl.components.forEach((comp, compDx) => {
-                    comp.ports.forEach((p, pDx) => {
-                        p.vdps.forEach((vdp, vdpDx) => {
-                            if (vdp.selected) {
-                                let props = { par, cl, comp, p, vdp, draw }
-                                connections.push(<Connection key={k++} {...props} />)
-                            }
-                        })
-                    })
-                })
-            })
-        })
         return <div className="connectionview">
             {connections}
         </div>
@@ -79,27 +97,31 @@ class Connection extends Component {
         this.state = {}
     }
     componentDidMount() {
-        this.setState({ refs: this.refs })
     }
     render() {
         const { par, cl, comp, p, vdp } = this.props
-        const toComps = vdp.toComps
-        const sender = (<div className="br">
+        const outComps = vdp.outComps || []
+        const sender = (<div className="sender br">
             <div className="name">{par.name}</div>
             <div className="name">{cl.name}</div>
             <div className="name">{comp.name}</div>
-            <div className="br"><span className="name" ref={'vdp_' + vdp.name}>{p.name}.{vdp.name}</span></div>
+            <div className="br"><span className="name">{p.name}.{vdp.name}</span></div>
         </div>)
-        const receivers = [].concat(toComps).map((comp, dx) => {
-            return <div key={dx} className="br">
-                <span className="name" ref={"comp_" + comp.component.name}>{comp.component.name}</span>
+        const reqComps = [].concat(outComps)
+        const receivers = reqComps.map((comp, dx) => {
+            return <div key={dx} className="receiver br">
+                <span className="name">{comp.name}</span>
             </div>
+        })
+        const connectors = reqComps.map((comp, dx) => {
+            return <div className="connector" key={dx}></div>
         })
         return <div className="" style={{}}>
             <div className="fbx connection">
-                <div>{sender}</div>
+                {sender}
+                <div className="connectors">{connectors}</div>
                 <div>{receivers}</div>
-            </div>                        
+            </div>
         </div>
 
     }

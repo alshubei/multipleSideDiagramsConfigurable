@@ -13,6 +13,8 @@ class AppComponent extends Component {
 		super(props);
 		this.connectVdpsToComps = this.connectVdpsToComps.bind(this)
 		this.selectVdp = this.selectVdp.bind(this)
+		this.selectPort = this.selectPort.bind(this)
+		this.selectComponent = this.selectComponent.bind(this)
 		this.state = {
 			partitions: [
 				{
@@ -29,7 +31,7 @@ class AppComponent extends Component {
 	}
 
 	componentDidMount() {
-		//fetch("../dataSmall.json")				
+		//fetch("../dataSmall.json")
 		fetch("../dataLarge.json")
 			.then((response) => response.json())
 			.then((data) => {
@@ -49,9 +51,16 @@ class AppComponent extends Component {
 		this.setState({ state })
 	}
 
-	selectVdp(e) {		
-		e.selected = (e.selected ? false : true)
-		this.setState({ refresh: true })
+	selectVdp(parIndex, clIndex, compIndex, portIndex, vdpIndex) {
+		this.setState({ selectedType: 'vdp', ... { parIndex, clIndex, compIndex, portIndex, vdpIndex } })
+	}
+
+	selectPort(parIndex, clIndex, compIndex, portIndex) {
+		this.setState({ selectedType: 'port', ...{ parIndex, clIndex, compIndex, portIndex } })
+	}
+
+	selectComponent(parIndex, clIndex, compIndex, connectionType) {
+		this.setState({ selectedType: 'component', ...{ parIndex, clIndex, compIndex, connectionType } })
 	}
 
 	render() {
@@ -59,22 +68,28 @@ class AppComponent extends Component {
 		const partitions = this.state.partitions.filter(p => funcs.isRtePartition(p, state))
 		const partitionsView = <PartitionsView partitions={partitions} state={state}
 			sf={{
-				selectVdp: this.selectVdp
+				selectVdp: this.selectVdp,
+				selectPort: this.selectPort,
+				selectComponent: this.selectComponent
 			}} />
 		return (
 			<div className={"fbx"}>
-				<div className="item" style={_.extend({}, funcs.width(30))}>
+				<div className="br" style={_.extend({}, funcs.width(40))}>
 					<div className={"fbx drcol"}>
-						<div className="item">
+						<div className="br">
 							spotview
 						</div>
-						<div className="item" >
+						<div className="br" >
 							{partitionsView}
 						</div>
 					</div>
 				</div>
-				<div className="item" style={_.extend({}, funcs.width(65))}>
-					<ConnectionsView partitions={partitions} state={state}  />
+				<div className="br" style={_.extend({}, funcs.width(50))}>
+					<div className="br">
+						spotview
+					</div>
+					<br />
+					<ConnectionsView partitions={partitions} state={state} />
 				</div>
 			</div>
 		);
@@ -86,44 +101,16 @@ AppComponent.defaultProps = {};
 export default AppComponent;
 
 const connect = (vdp, state) => {
-	vdp.toComps = []
+	vdp.outComps = []
 	const rPorts = vdp.rPorts
-	const reqComps = rPorts.map(x => x.requiringComponent)	
+	const reqComps = rPorts.map(x => x.requiringComponent)
 	reqComps.forEach((rc, dx) => {
 		const xs = rc.split("/")
 		const partitionIndex = state.partitions.findIndex(p => p.name == xs[0])
 		const clusterIndex = state.partitions[partitionIndex].clusters.findIndex(c => c.name == xs[1])
 		const component = state.partitions[partitionIndex].clusters[clusterIndex].components.find(c => c.name == xs[2])
-		component.connected = (component.connected == "connected" ? "" : "connected")
-		vdp.toComps.push({ component })
+		component.inVdps = component.inVdps ? component.inVdps : []
+		component.inVdps.push(vdp)// (component.connected == "connected" ? "" : "connected")
+		vdp.outComps.push(component)
 	});
 }
-
-
-const lineStyle = {
-	"strokeWidth": "2px",
-	"stroke": "red",
-}
-const svgStyle = {
-	"height": "100%",
-	"width": "100%",
-	"border": "1px solid",
-	"position": "absolute"
-}
-// const allComponents = _.flattenDepth(state.partitions.map(x => (x.clusters || []).map(x => x.components)), 2)
-// const allVdps = _.flattenDepth(allComponents.map(c => c.ports.map(p => p.vdps)), 2)
-// const connectionDiagrams = allVdps.filter(vdp => vdp.refs && funcs.isRteVdp(vdp, state)).map((vdp, dx) => {
-// 	const p1 = vdp.refs["vdp_" + vdp.name]
-// 	return vdp.toComps.filter(c => c.component.refs).map((tc, dx) => {
-// 		const comp = tc.component
-// 		const p2 = comp.refs["comp_" + comp.name]
-// 		const p1Rect = p1.getBoundingClientRect()
-// 		const p2Rect = p2.getBoundingClientRect()
-// 		const x1 = p1Rect.left + (p1Rect.width / 2);
-// 		const y1 = p1Rect.top + (p1Rect.height / 2);
-// 		const x2 = p2Rect.left + (p2Rect.width / 2);
-// 		const y2 = p2Rect.top + (p2Rect.height / 2);
-// 		return <line x1={x1 - 30} y1={y1 - 15} x2={x2 - 30} y2={y2 - 40} style={lineStyle} />
-// 	})
-// })
-{/* <svg style={svgStyle}>{connectionDiagrams}</svg> */ }

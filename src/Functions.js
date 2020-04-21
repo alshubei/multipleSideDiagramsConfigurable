@@ -7,27 +7,27 @@ const sortByName = (a, b) => {
 }
 
 const isRtePartition = (p, state) => {
-    return p && p.clusters && p.clusters.length && p.clusters.find(c => isRteCluster(c, state))
+    return true //p && p.clusters && p.clusters.length && p.clusters.find(c => isRteCluster(c, state))
 }
 
 const isRteCluster = (c, state) => {
-    return c && c.components && c.components.length && c.components.find(c => isRteComponent(c, state))
+    return true //c && c.components && c.components.length && c.components.find(c => isRteComponent(c, state))
 }
 
 const isRteComponent = (c) => {
-    return c && c.ports && c.ports.length //&& c.ports.find(p=>isRtePort(p, state))
+    return true //c && c.ports && c.ports.length //&& c.ports.find(p=>isRtePort(p, state))
 }
 
 const isRtePort = (p, state) => {
-    return p && ((!state.portsWhitelist || !state.portsWhitelist.length) || state.portsWhitelist.find(n => n.trim() == p.name))
+    return true//p && ((!state.portsWhitelist || !state.portsWhitelist.length) || state.portsWhitelist.find(n => n.trim() == p.name))
 }
 
 const isRteVdp = (vdp, state) => {
-    return vdp && ((!state.portsWhitelist || !state.portsWhitelist.length) || state.portsWhitelist.find(n => n.trim() == vdp.name))
+    return true//vdp && ((!state.portsWhitelist || !state.portsWhitelist.length) || state.portsWhitelist.find(n => n.trim() == vdp.name))
 }
 
 const isVdpRequired = (vdp) => {
-    return vdp && vdp.toComps && vdp.toComps.length
+    return vdp && vdp.outComps && vdp.outComps.length
 }
 
 const width = (v, unit) => {

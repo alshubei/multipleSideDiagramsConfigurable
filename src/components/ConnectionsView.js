@@ -95,41 +95,11 @@ class Connection extends Component {
                 <span className="name" ref={"comp_" + comp.component.name}>{comp.component.name}</span>
             </div>
         })
-        const lineStyle = {
-            "strokeWidth": "1px",
-            "stroke": "green",
-        }
-        const svgStyle = {
-            "height": "100%",
-            "width": "100%",
-            "border": "1px solid",
-            "position": "absolute",
-            "top": 0,
-            "left": 0
-        }
-        const connections = []
-        const p1 = (this.refs && this.refs["vdp_" + vdp.name]) ? this.refs["vdp_" + vdp.name] : null
-        if (p1) {
-            const p1Rect = p1.getBoundingClientRect()
-            const p2Rects = vdp.toComps.map((c) => {
-                const refName = "comp_" + c.component.name
-                const p2 = (this.refs && this.refs[refName]) ? this.refs[refName] : null
-                return p2 ? p2.getBoundingClientRect() : null
-            }).filter(x => x)
-            p2Rects.forEach((p2Rect, dx) => {
-                const x1 = p1Rect.left + (p1Rect.width / 2);
-                const y1 = p1Rect.top + (p1Rect.height / 2);
-                const x2 = p2Rect.left + (p2Rect.width / 2);
-                const y2 = p2Rect.top + (p2Rect.height / 2);
-                connections.push(<svg key={dx} style={svgStyle}><line x1={x1 - 30} y1={y1 - 15} x2={x2 - 30} y2={y2 - 40} style={lineStyle} /></svg>)
-            })
-        }
-        return <div className="">
+        return <div className="" style={{}}>
             <div className="fbx connection">
                 <div>{sender}</div>
                 <div>{receivers}</div>
-            </div>
-            {connections}
+            </div>                        
         </div>
 
     }

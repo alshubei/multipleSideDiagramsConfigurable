@@ -88,8 +88,8 @@ class PortDiagram extends Component {
         // }
         const vdps = port.vdps.sort(funcs.sortByName).filter(v => funcs.isRteVdp(v, state)).map(
             (vdp, dx) => <Vdp vdp={vdp} key={dx} state={state} vdpIndex={dx} parIndex={parIndex} clIndex={clIndex} compIndex={compIndex} portIndex={portIndex} sf={sf} />)
-        return <div className="br port" key={portIndex} onClick={(e) => { selPort(e) }}>
-            <div className="name tooltip">{('p' + (portIndex + 1))}<span className="tooltiptext">{port.name}</span></div>
+        return <div className={"br port " + (funcs.isPortRequired(port) ? "connected" : "")} key={portIndex} onClick={(e) => { selPort(e) }}>
+            <div className="name tooltip">{funcs.showName(port, portIndex, "port", state)}<span className="tooltiptext">{port.name}</span></div>
             <br />
             <div className="fbx vdps">
                 {vdps}
@@ -107,7 +107,7 @@ class Vdp extends Component {
         const Desc = (vdp.rPorts && vdp.rPorts.length) ? [].concat(vdp.rPorts.map(rp => rp.requiringComponent)).sort().map((x, dx) => <div key={dx}>{x}</div>) : <div key={vdpIndex}>no_reqs</div>
         return <div className={"br vdp tooltip " + (funcs.isVdpRequired(vdp) ? "connected" : "")} key={vdpIndex}
             onClick={(e) => { selVdp(e) }}>
-            <span className="name">{('vdp' + (vdpIndex + 1))}<span className="tooltiptext">{vdp.name}{': '}{Desc}</span></span>
+            <span className="name">{funcs.showName(vdp, vdpIndex, "vdp", state)}<span className="tooltiptext">{vdp.name}{': '}{Desc}</span></span>
         </div>
     }
 }

@@ -1,7 +1,17 @@
 {
-	"partitions": [{
-			"clusters": [{
-					"components": [{
+	"portsWhitelist": [
+		"port1",
+		"port2",
+		"port3",
+		"ARSysPrsSigCalibFiltFast"
+		
+	],
+	"partitions": [
+		{
+			"clusters": [
+				{
+					"components": [
+						{
 							"prototypePath": "",
 							"descriptionLanguage": "CIDL",
 							"isStubbed": false,
@@ -10,28 +20,34 @@
 							"core": "2",
 							"cycleTime": "5000",
 							"plugins": [],
-							"dataTypes": [{
+							"dataTypes": [
+								{
 									"category": "StructType:STRUCTURE",
 									"name": "bus_act_val_req_t"
-								}, {
+								},
+								{
 									"category": "BaseType:VALUE",
 									"name": "sint8"
-								}, {
+								},
+								{
 									"category": "BaseType:VALUE",
 									"name": "uint16"
 								}
 							],
-							"ports": [{
+							"ports": [
+								{
 									"type": "PPORT",
 									"asil": "qm",
 									"priority": "T10MS_PRIO2",
 									"interfacePath": "/cluster1/ProviderComp/Interfaces/ARSysPrsSigCalibFiltFast",
 									"portPrototypePath": "",
 									"updateTime": "5000",
-									"vdps": [{
+									"vdps": [
+										{
 											"dataTypePath": "partition1/cluster1/ProviderComp/bus_act_val_req_t",
 											"swAddrMethodPath": "/AUTOSAR/DataDefinitions/AddressingMethods/EBS/QM_T10MS_PRIO2",
-											"rPorts": [{
+											"rPorts": [
+												{
 													"requiringComponent": "partition1/cluster1/MKC2HydAct",
 													"portPrototypePath": "/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARSysPrsSigCalibFiltFast",
 													"transferTime": "5000",
@@ -40,7 +56,8 @@
 													"osTaskPath": "RteCore0Task2500usSync5msIn",
 													"osApplicationPath": "",
 													"name": "ARSysPrsSigCalibFiltFast"
-												}, {
+												},
+												{
 													"requiringComponent": "partition1/cluster1/MKC2HydAct_ARXML",
 													"portPrototypePath": "/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARSysPrsSigCalibFiltFast",
 													"transferTime": "5000",
@@ -60,17 +77,20 @@
 									"osTaskPath": "RteCore2Task5msSync5msOut",
 									"osApplicationPath": "",
 									"name": "ARSysPrsSigCalibFiltFast"
-								}, {
+								},
+								{
 									"type": "PPORT",
 									"asil": "qm",
 									"priority": "T10MS_PRIO2",
 									"interfacePath": "/cluster1/ProviderComp/Interfaces/ARHpmOrificeFactor",
 									"portPrototypePath": "",
 									"updateTime": "5000",
-									"vdps": [{
+									"vdps": [
+										{
 											"dataTypePath": "partition1/cluster1/ProviderComp/sint8",
 											"swAddrMethodPath": "/AUTOSAR/DataDefinitions/AddressingMethods/EBS/QM_T10MS_PRIO2",
-											"rPorts": [{
+											"rPorts": [
+												{
 													"requiringComponent": "partition1/cluster1/MKC2HydAct_ARXML",
 													"portPrototypePath": "/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARHpmOrificeFactor",
 													"transferTime": "5000",
@@ -79,7 +99,8 @@
 													"osTaskPath": "RteCore0Task2500usSync5msIn",
 													"osApplicationPath": "",
 													"name": "ARHpmOrificeFactor"
-												}, {
+												},
+												{
 													"requiringComponent": "partition1/cluster1/MKC2HydAct",
 													"portPrototypePath": "/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARHpmOrificeFactor",
 													"transferTime": "5000",
@@ -99,17 +120,20 @@
 									"osTaskPath": "RteCore2Task5msSync5msOut",
 									"osApplicationPath": "",
 									"name": "ARHpmOrificeFactor"
-								}, {
+								},
+								{
 									"type": "PPORT",
 									"asil": "qm",
 									"priority": "T10MS_PRIO2",
 									"interfacePath": "/cluster1/ProviderComp/Interfaces/ARDbrArbPressureRequest",
 									"portPrototypePath": "",
 									"updateTime": "5000",
-									"vdps": [{
+									"vdps": [
+										{
 											"dataTypePath": "partition1/cluster1/ProviderComp/uint16",
 											"swAddrMethodPath": "/AUTOSAR/DataDefinitions/AddressingMethods/EBS/QM_T10MS_PRIO2",
-											"rPorts": [{
+											"rPorts": [
+												{
 													"requiringComponent": "partition1/cluster1/MKC2HydAct",
 													"portPrototypePath": "/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARDbrArbPressureRequest",
 													"transferTime": "5000",
@@ -118,7 +142,8 @@
 													"osTaskPath": "RteCore0Task2500usSync5msIn",
 													"osApplicationPath": "",
 													"name": "ARDbrArbPressureRequest"
-												}, {
+												},
+												{
 													"requiringComponent": "partition1/cluster1/MKC2HydAct_ARXML",
 													"portPrototypePath": "/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARDbrArbPressureRequest",
 													"transferTime": "5000",
@@ -141,7 +166,8 @@
 								}
 							],
 							"name": "ProviderComp"
-						}, {
+						},
+						{
 							"prototypePath": "",
 							"descriptionLanguage": "CIDL",
 							"isStubbed": false,
@@ -153,7 +179,8 @@
 							"dataTypes": [],
 							"ports": [],
 							"name": "EbsCore_BaseTypes"
-						}, {
+						},
+						{
 							"prototypePath": "/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct",
 							"descriptionLanguage": "AUTOSAR",
 							"isStubbed": true,
@@ -162,31 +189,38 @@
 							"core": "0",
 							"cycleTime": "2500",
 							"plugins": [],
-							"dataTypes": [{
+							"dataTypes": [
+								{
 									"category": "NumericType:VALUE",
 									"name": "enum_hyd_mode_t"
-								}, {
+								},
+								{
 									"category": "NumericType:VALUE",
 									"name": "enum_modulator_req_t"
-								}, {
+								},
+								{
 									"category": "StructType:STRUCTURE",
 									"name": "bus_motor_req_t"
-								}, {
+								},
+								{
 									"category": "StructType:STRUCTURE",
 									"name": "bus_act_val_req_t"
 								}
 							],
-							"ports": [{
+							"ports": [
+								{
 									"type": "PPORT",
 									"asil": "",
 									"priority": "",
 									"interfacePath": "/HydAct/MKC2HydAct/MKC2HydAct_if/ActiveHydMode",
 									"portPrototypePath": "/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ActiveHydMode",
 									"updateTime": "2500",
-									"vdps": [{
+									"vdps": [
+										{
 											"dataTypePath": "partition1/cluster1/MKC2HydAct_ARXML/enum_hyd_mode_t",
 											"swAddrMethodPath": "",
-											"rPorts": [{
+											"rPorts": [
+												{
 													"requiringComponent": "partition1/cluster1/reqComp1",
 													"transferTime": "5000",
 													"rteTaskName": "RteCore0Task5msSync5msIn",
@@ -203,14 +237,16 @@
 									"osTaskPath": "RteCore0Task2500usSafetySync5msOut",
 									"osApplicationPath": "",
 									"name": "ActiveHydMode_ActiveHydMode"
-								}, {
+								},
+								{
 									"type": "PPORT",
 									"asil": "",
 									"priority": "",
 									"interfacePath": "/HydAct/MKC2HydAct/MKC2HydAct_if/HydActModulatorReq",
 									"portPrototypePath": "/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARHydActModulatorReq",
 									"updateTime": "2500",
-									"vdps": [{
+									"vdps": [
+										{
 											"dataTypePath": "partition1/cluster1/MKC2HydAct_ARXML/enum_modulator_req_t",
 											"swAddrMethodPath": "",
 											"rPorts": [],
@@ -222,14 +258,16 @@
 									"osTaskPath": "RteCore0Task2500usSafetySync2500usOut",
 									"osApplicationPath": "",
 									"name": "ARHydActModulatorReq_HydActModulatorReq"
-								}, {
+								},
+								{
 									"type": "PPORT",
 									"asil": "",
 									"priority": "",
 									"interfacePath": "/HydAct/MKC2HydAct/MKC2HydAct_if/HydActMotorReq",
 									"portPrototypePath": "/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARHydActMotorReq",
 									"updateTime": "2500",
-									"vdps": [{
+									"vdps": [
+										{
 											"dataTypePath": "partition1/cluster1/MKC2HydAct_ARXML/bus_motor_req_t",
 											"swAddrMethodPath": "",
 											"rPorts": [],
@@ -241,14 +279,16 @@
 									"osTaskPath": "RteCore0Task2500usSafetySync2500usOut",
 									"osApplicationPath": "",
 									"name": "ARHydActMotorReq_HydActMotorReq"
-								}, {
+								},
+								{
 									"type": "PPORT",
 									"asil": "",
 									"priority": "",
 									"interfacePath": "/HydAct/MKC2HydAct/MKC2HydAct_if/HydActValveReq",
 									"portPrototypePath": "/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct/ARHydActValveReq",
 									"updateTime": "2500",
-									"vdps": [{
+									"vdps": [
+										{
 											"dataTypePath": "partition1/cluster1/MKC2HydAct_ARXML/bus_act_val_req_t",
 											"swAddrMethodPath": "",
 											"rPorts": [],
@@ -263,7 +303,8 @@
 								}
 							],
 							"name": "MKC2HydAct_ARXML"
-						}, {
+						},
+						{
 							"prototypePath": "",
 							"descriptionLanguage": "CIDL",
 							"isStubbed": false,
@@ -275,7 +316,8 @@
 							"dataTypes": [],
 							"ports": [],
 							"name": "AReqComp2"
-						}, {
+						},
+						{
 							"prototypePath": "/HydAct/MKC2HydAct/MKC2HydAct_swc/MKC2HydAct",
 							"descriptionLanguage": "CIDL",
 							"isStubbed": false,
@@ -287,7 +329,8 @@
 							"dataTypes": [],
 							"ports": [],
 							"name": "MKC2HydAct"
-						}, {
+						},
+						{
 							"prototypePath": "",
 							"descriptionLanguage": "CIDL",
 							"isStubbed": false,
@@ -296,22 +339,26 @@
 							"core": "0",
 							"cycleTime": "cNO_CYCLE_TIME",
 							"plugins": [],
-							"dataTypes": [{
+							"dataTypes": [
+								{
 									"category": "BaseType:VALUE",
 									"name": "sint8"
 								}
 							],
-							"ports": [{
+							"ports": [
+								{
 									"type": "PPORT",
 									"asil": "d",
 									"priority": "T10MS_PRIO1",
 									"interfacePath": "/cluster1/composite1/Interfaces/port2",
 									"portPrototypePath": "",
 									"updateTime": "10000",
-									"vdps": [{
+									"vdps": [
+										{
 											"dataTypePath": "partition1/cluster1/composite1/sint8",
 											"swAddrMethodPath": "/AUTOSAR/DataDefinitions/AddressingMethods/EBS/T10MS_PRIO1",
-											"rPorts": [{
+											"rPorts": [
+												{
 													"requiringComponent": "partition1/cluster1/comp2",
 													"transferTime": "-1",
 													"rteTaskName": "RteCore0Task10msSafetySync10msOut",
@@ -330,15 +377,18 @@
 									"osTaskPath": "/AUTOSAR/Os/RteCore0Task10msSafetySync10msOut",
 									"osApplicationPath": "",
 									"name": "port2"
-								}, {
+								},
+								{
 									"type": "PPORT",
 									"asil": "qm",
 									"priority": "T10MS_PRIO1",
 									"interfacePath": "/cluster1/composite1/Interfaces/port3",
 									"portPrototypePath": "",
 									"updateTime": "10000",
-									"vdps": [{
-											"rPorts": [{
+									"vdps": [
+										{
+											"rPorts": [
+												{
 													"requiringComponent": "partition1/cluster1/reqComp1",
 													"transferTime": "-1",
 													"rteTaskName": "RteCore0Task10msSync10msOut",
@@ -360,7 +410,8 @@
 								}
 							],
 							"name": "composite1"
-						}, {
+						},
+						{
 							"prototypePath": "",
 							"descriptionLanguage": "CIDL",
 							"isStubbed": false,
@@ -372,7 +423,8 @@
 							"dataTypes": [],
 							"ports": [],
 							"name": "reqComp1"
-						}, {
+						},
+						{
 							"prototypePath": "",
 							"descriptionLanguage": "CIDL",
 							"isStubbed": false,
@@ -381,24 +433,28 @@
 							"core": "0",
 							"cycleTime": "5000",
 							"plugins": [],
-							"dataTypes": [{
+							"dataTypes": [
+								{
 									"category": "BaseType:VALUE",
 									"name": "sint8"
 								}
 							],
-							"ports": [{
+							"ports": [
+								{
 									"type": "PPORT",
 									"asil": "c",
 									"priority": "T10MS_PRIO1",
 									"interfacePath": "/cluster1/comp2/Interfaces/MyPort_vdp1",
 									"portPrototypePath": "",
 									"updateTime": "",
-									"vdps": [{
+									"vdps": [
+										{
 											"dataTypePath": "partition1/cluster1/comp2/sint8",
 											"swAddrMethodPath": "/AUTOSAR/DataDefinitions/AddressingMethods/EBS/T10MS_PRIO1",
 											"rPorts": [],
 											"name": "MyPort_vdp1"
-										}, {
+										},
+										{
 											"rPorts": [],
 											"name": "MyPort_vdp2"
 										}
@@ -409,15 +465,18 @@
 									"osTaskPath": "/AUTOSAR/Os/RteCore0Task5msSafetySync5msOut",
 									"osApplicationPath": "",
 									"name": "MyPort_vdp1"
-								}, {
+								},
+								{
 									"type": "PPORT",
 									"asil": "c",
 									"priority": "T10MS_PRIO1",
 									"interfacePath": "/cluster1/comp2/Interfaces/port4",
 									"portPrototypePath": "",
 									"updateTime": "5000",
-									"vdps": [{
-											"rPorts": [{
+									"vdps": [
+										{
+											"rPorts": [
+												{
 													"requiringComponent": "partition1/cluster1/composite1",
 													"transferTime": "-1",
 													"rteTaskName": "RteCore0Task5msSafetySync5msOut",
@@ -425,7 +484,8 @@
 													"osTaskPath": "/AUTOSAR/Os/RteCore0Task5msSafetySync5msOut",
 													"osApplicationPath": "",
 													"name": "port4"
-												}, {
+												},
+												{
 													"requiringComponent": "partition1/cluster1/AReqComp2",
 													"transferTime": "5000",
 													"rteTaskName": "RteCore0Task1msSafetySync5msIn",

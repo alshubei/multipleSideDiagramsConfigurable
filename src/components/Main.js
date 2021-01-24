@@ -4,164 +4,217 @@ require('styles/App.scss');
 
 import React, { Component } from 'react';
 import _ from 'lodash'
-import funcs from '../Functions'
-import PartitionsView from './PartitionsView'
-import MultiSelectReact from 'multi-select-react';
+import jsonQuery from 'json-query'
+import OpenFile from './OpenFile.js'
+import EntityPropsPanel from './EntityPropsPanel.js'
+import Entity from './Entity'
 
 
 class AppComponent extends Component {
 	constructor(props) {
 		super(props);
-		this.connectVdpsToComps = this.connectVdpsToComps.bind(this)
-		this.selectVdp = this.selectVdp.bind(this)
-		this.selectPort = this.selectPort.bind(this)
-		this.selectComponent = this.selectComponent.bind(this)
-		this.handleConnectedCheck = this.handleConnectedCheck.bind(this)
-		this.handleWhitelistCheck = this.handleWhitelistCheck.bind(this)
-		this.handleShowNamesCheck = this.handleShowNamesCheck.bind(this)
+		this.addOrUpdateSide = this.addOrUpdateSide.bind(this)
+		this.closeSide = this.closeSide.bind(this)
+		this.editSide = this.editSide.bind(this)
+		this.onPropChange = this.onPropChange.bind(this)
+		this.onOpenFile = this.onOpenFile.bind(this)
+		this.jsonQuery = this.jsonQuery.bind(this) //unncessary
 		this.state = {
-			multiSelect: [{name: "adsad", id:1, label: "asdsaadsa"}],
-			filters: [
-				{ type: 'onlyConnected', value: true },
-				{ type: 'whitelist', value: true },
-				{ type: 'showName', value: false },
-			],
-			partitions: [
-				{
-					name: "<PARTITION-NAME>", clusters: [
-						{
-							name: "<CLUSTER-NAME>", components: [
-								{
-									name: "<COMPONENT-NAME>", ports: [
-										{ name: "<PORT-NAME>", vdps: [{ name: "<VDP-NAME>", rPorts: [] }] }]
-								}]
-						}]
-				}]
+			sideDescriptors: [
+				
+			]
 		}
 	}
 
-	componentDidMount() {
-		fetch("../dataSmall.json")
-		//fetch("../dataLarge.json")
+	onOpenFile(filePath) {
+		this.setState({filePath: filePath})
+		fetch(filePath)
 			.then((response) => response.json())
 			.then((data) => {
-				const state = { "partitions": data.partitions.sort(funcs.sortByName), "portsWhitelist": data.portsWhitelist }
-				this.setState({ "partitions": state.partitions, "portsWhitelist": state.portsWhitelist })
-				this.connectVdpsToComps(state)
+				// const state = { "partitions": data.partitions.sort(funcs.sortByName)}
+				this.setState({data: {...data}})
 			})
+			.catch((error) => {
+				console.error('Error:', error)
+				alert(filePath + ' is a wrong file name. ' + error)
+			})
+			
 	}
 
-	connectVdpsToComps(state) {
-		const allComponents = _.flattenDepth(state.partitions.map(x => x.clusters.map(x => x.components)), 2)
-		const allVdps = _.flattenDepth(allComponents.map(c => c.ports.map(p => p.vdps)), 2)
-		allVdps/*.filter(vdp => funcs.isRteVdp(vdp, state))*/.forEach((vdp, dx) => {
-			connect(vdp, state)
+	
+	addOrUpdateSide(currSide) {
+		const sideDescriptors = (currSide=='left'?'leftSideDescriptors':'rightSideDescriptors')
+		const currSideSelector = (currSide=='left'?'currLeftSelector':'currRightSelector')
+		const selector = this.state[currSideSelector]
+		if (selector==undefined || !selector.trim().length) return		
+		const newSide = {
+			selector: selector,
+			labelProp: this.getLabelProp(selector) ,
+			side: currSide
+		}
+		const newState = this.state
+		newState[sideDescriptors]=newState[sideDescriptors] ||[]
+		newState[sideDescriptors].push(newSide)
+		newState[currSideSelector]=''
+		this.setState({...newState})
+	}
+	
+	closeSide(index, sideDescriptors) {
+		const newState = this.state
+		sideDescriptors.splice(index, 1)
+		this.setState({...newState})
+	}
+	editSide(index, side) {
+		const newState = this.state
+		const allSides = _.flatten([this.state.leftSideDescriptors, this.state.rightSideDescriptors])
+		_.forEach(allSides, (sd, i)=>{
+			if (i==index && sd.side==side) {
+				sd.editing=(sd.editing ? !sd.editing : true)
+			} else {
+				sd.editing=false
+			}
 		})
-
-		this.setState({ state })
+		this.setState({...newState})
 	}
 
-	selectVdp(parIndex, clIndex, compIndex, portIndex, vdpIndex) {
-		this.setState({ selectedType: 'vdp', ... { parIndex, clIndex, compIndex, portIndex, vdpIndex } })
-	}
-
-	selectPort(parIndex, clIndex, compIndex, portIndex) {
-		this.setState({ selectedType: 'port', ...{ parIndex, clIndex, compIndex, portIndex } })
-	}
-
-	selectComponent(parIndex, clIndex, compIndex, connectionType) {
-		this.setState({ selectedType: 'component', ...{ parIndex, clIndex, compIndex, connectionType } })
-	}
-	handleWhitelistCheck(b) {
-		const newFilters = this.state.filters || []
-		const filter = newFilters.find(f => f.type == 'whitelist')
-		if (!filter) {
-			newFilters.push({ type: 'whitelist', value: b })
-		} else {
-			filter.value = b
+	onPropChange(sideDescriptor, propName, propValue, empty) {
+		let filt=(sideDescriptor.filters||[]).find(f=>f.propName==propName)
+		if (filt) {
+			filt['value']=propValue.trim()
+			filt['empty']=empty
 		}
-		this.setState({ filters: newFilters })
-	}
-	handleShowNamesCheck(b) {
-		const newFilters = this.state.filters || []
-		const filter = newFilters.find(f => f.type == 'showName')
-		if (!filter) {
-			newFilters.push({ type: 'showName', value: b })
-		} else {
-			filter.value = b
+		else {
+			filt={}
+			filt['propName']=propName
+			filt['value']=propValue.trim()
+			filt['empty']=empty
+			sideDescriptor.filters=sideDescriptor.filters||[]
+			sideDescriptor.filters.push(filt)
 		}
-		this.setState({ filters: newFilters })
+		this.setState({...this.state})
+	}
+	getSideSelector(sideDescriptor){
+		const segs = this.getSegments(sideDescriptor.selector)
+		return segs.join(".") 	
 	}
 
-	handleConnectedCheck(b) {
-		const newFilters = this.state.filters || []
-		const filter = newFilters.find(f => f.type == 'onlyConnected')
-		if (!filter) {
-			newFilters.push({ type: 'onlyConnected', value: b })
-		} else {
-			filter.value = b
+	getLabelProp(selector) {
+		const lastSeg = _.last(this.getSegments(selector))
+		return lastSeg.split(":").length>1 ? _.last(lastSeg.split(":")) : 'name'
+	}
+
+	getSegments(selector) {
+		const lastSeg = _.last(selector.split(".").map(x=>x.trim()))
+		return selector.replace(':'+lastSeg, '').split(".")
+	}
+
+	jsonQuery(sideDescriptor, data) {
+		const selector = this.getSideSelector(sideDescriptor)
+		return jsonQuery(selector, {
+			data: data
+		}).value
+	}
+
+	getProperties(data) {
+		const entityData = data[0]
+		if (entityData) {
+			const keys = Object.keys(entityData)
+			return keys.filter(k=>k!=="sideDescriptor" && !_.isArray(entityData[k]))
 		}
-		this.setState({ filters: newFilters })
-	}
-	onSelect(selectedList, selectedItem) {
-
+		return []
 	}
 
-	onRemove(selectedList, removedItem) {
-
+	filterSideData(data, sideDescriptor) {
+		const filtered = data.filter(d=>{
+			const filts = sideDescriptor.filters||[]
+			if(!filts)
+			return true
+			const fs = filts.map(f=>{
+				const a = _.toLower((d[f['propName']] ||'').toString().trim())
+				const b = _.toLower(f.value.trim())
+				if(f.empty)
+				return a==undefined || a.trim().length==0
+				if (!b || !b.length) 
+				return true
+				return _.includes(a, b)
+			})
+			return fs.every(b=>b==true)
+		})
+		return filtered
 	}
 
-	optionClicked(optionsList) {
-		this.setState({ multiSelect: optionsList });
-	}
-	selectedBadgeClicked(optionsList) {
-		this.setState({ multiSelect: optionsList });
+	onCurrSelectorChange(currSide, e) {
+		const v = e.target.value.trim()
+		this.state[(currSide=='left'?'currLeftSelector':'currRightSelector')]=v
+		this.setState({...this.state})
 	}
 
 	render() {
-		const state = this.state
-		const partitions = this.state.partitions.filter(p => funcs.isRtePartition(p, state))
-		const partitionsView = <PartitionsView partitions={partitions} state={state}
-			sf={{
-				selectVdp: this.selectVdp,
-				selectPort: this.selectPort,
-				selectComponent: this.selectComponent
-			}} />
-		const selectedOptionsStyles = {
-			color: "#3c763d",
-			backgroundColor: "#dff0d8"
-		};
-		const optionsListStyles = {
-			backgroundColor: "#dff0d8",
-			color: "#3c763d"
-		};
-		return (
-			<div className={"fbx"}>
-				<div className="br filters" style={_.extend({}, funcs.width(10))}>
-					<ul className="options">
-						<li>ports/vdps:</li>
-						<li><Checkbox label="connected" handle={(s) => this.handleConnectedCheck(s)} /></li>
-						<li><Checkbox label="in portswhitelist" handle={(s) => this.handleWhitelistCheck(s)} /></li>
-					</ul>
-					<ul className="portswhitelist">
-						<MultiSelectReact
-							options={this.state.multiSelect}
-							optionClicked={this.optionClicked.bind(this)}
-							selectedBadgeClicked={this.selectedBadgeClicked.bind(this)}
-							selectedOptionsStyles={selectedOptionsStyles}
-							optionsListStyles={optionsListStyles}
-						/>
-						<li>portsWhitelist</li>
-						{(state.portsWhitelist || []).map((p, dx) => {
-							return <li key={dx}>{p.trim()}</li>
-						})}</ul>
-				</div>
-				<div className={"fbx drcol"} style={_.extend({}, funcs.width(88))}>
-					<div className="br controls">
-						<Checkbox label="show names: " checked={false} handle={(s) => this.handleShowNamesCheck(s)} />
+		const createEntitySides = (side) => {
+			const entitySides = []
+			let sideData
+			let propNames
+			const sideDescriptors = ((side=='left'?this.state.leftSideDescriptors:this.state.rightSideDescriptors) ||[])
+			for (let sideIndex = 0; sideIndex < sideDescriptors.length; sideIndex++) {
+				const sideDescriptor = sideDescriptors[sideIndex]
+				if (sideIndex==0) {
+					sideData = this.jsonQuery(sideDescriptor, this.state.data)
+					propNames = this.getProperties(sideData)
+					sideData = this.filterSideData(sideData, sideDescriptor)
+				} else {
+					sideData = this.jsonQuery(sideDescriptor, sideData)
+					propNames = this.getProperties(sideData)
+					sideData = this.filterSideData(sideData, sideDescriptor)
+				}
+				let entities = <div className={"fbx drcol " + (sideDescriptor.editing ? 'editing' : '')} key={sideIndex}>				
+					<div>
+						<button onClick={this.editSide.bind(this, sideIndex, side)}>{sideDescriptor.selector} ({sideData.length})</button> 
+						<span className="close" onClick={this.closeSide.bind(this, sideIndex, side)}>x</span>
 					</div>
-					<div className="br partitionsView" >
-						{partitionsView}
+					<div className="fbx br">
+						<EntityPropsPanel {...{propNames: propNames, onPropChange:this.onPropChange.bind(this, sideDescriptor)}}/>
+						<div className="fbx" >
+							<div>{sideData.map((d, i)=><Entity {...{data: d, sideDescriptor: sideDescriptor}} key={i} />)}</div>	
+						</div>
+					</div>
+				</div>
+				entitySides.push(entities)
+			}
+			return entitySides
+		}
+		
+		const leftEntitySides = createEntitySides('left')
+		const rightEntitySides = createEntitySides('right')
+		const displayIf = (cond) => {
+			if (!cond) 
+				return 'hide ' 
+			else 
+				return ''
+		}
+		
+		return (
+			<div className="fbx drcol space-bet">
+				<OpenFile {...{open: this.onOpenFile}} />
+				<div className="fbx space-bet">
+					<div className={displayIf(this.state.data) + ' br'}>
+						<p>Left side selector:</p>
+						{/* <textarea ref={'leftEntityDescriptor'} rows={1} cols={40} defaultValue={"partitions.clusters.components:asil"} /> */}
+						<p>partitions.clusters.components:asil</p>
+						<textarea rows={1} cols={40} value={this.state.currLeftSelector} onChange={this.onCurrSelectorChange.bind(this, 'left')} />
+						<button className="newSide"  onClick={this.addOrUpdateSide.bind(this, 'left')} >✓</button>
+						<div className="fbx space-bet">
+							{leftEntitySides}
+						</div>		
+					</div>
+					<div className={displayIf(this.state.data)+' fbx alignItemsCenter'}><button className='mrgnLR10'>{ '>' }</button></div>
+					<div className={displayIf(this.state.data) + ' br'}>
+						<p>Right side selector:</p>
+						{/* <textarea ref={'rightEntityDescriptor'} rows={1} cols={40} defaultValue={"partitions.clusters.components:asil"} /> */}
+						<textarea rows={1} cols={40} value={this.state.currRightSelector} onChange={this.onCurrSelectorChange.bind(this, 'right')}/>
+						<button className="newSide"  onClick={this.addOrUpdateSide.bind(this, 'right')} >✓</button>
+						<div className="fbx space-bet">
+							{rightEntitySides}
+						</div>		
 					</div>
 				</div>
 			</div>
@@ -173,44 +226,6 @@ AppComponent.defaultProps = {};
 
 export default AppComponent;
 
-const connect = (vdp, state) => {
-	vdp.outComps = []
-	const rPorts = vdp.rPorts
-	const reqComps = rPorts.map(x => x.requiringComponent)
-	reqComps.forEach((rc, dx) => {
-		const xs = rc.split("/")
-		const partitionIndex = state.partitions.findIndex(p => p.name == xs[0])
-		const clusterIndex = state.partitions[partitionIndex].clusters.findIndex(c => c.name == xs[1])
-		const component = state.partitions[partitionIndex].clusters[clusterIndex].components.find(c => c.name == xs[2])
-		component.inVdps = component.inVdps ? component.inVdps : []
-		component.inVdps.push(vdp)// (component.connected == "connected" ? "" : "connected")
-		vdp.outComps.push(component)
-	});
-}
 
-class Checkbox extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			isChecked: (props.checked !== undefined ? props.checked : true),
-		};
-	}
-	toggleChange = () => {
-		this.setState({
-			isChecked: !this.state.isChecked,
-		});
-		if (this.props.handle)
-			this.props.handle(!this.state.isChecked)
-	}
-	render() {
-		return (
-			<label>
-				{this.props.label}
-				<input type="checkbox"
-					checked={this.state.isChecked}
-					onChange={this.toggleChange}
-				/>
-			</label>
-		);
-	}
-}
+
+

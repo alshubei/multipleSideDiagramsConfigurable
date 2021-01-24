@@ -2,181 +2,34 @@
 body {
   color: rgb(70, 68, 68);
   font-family: Arial, Helvetica, sans-serif;
-  background-color: gray;
-  font-size: medium;
+  font-size: 13px;
   margin: 20px;
 }
-.partitionsView {
-  position: relative;
-  left: 200px;
-  top: 25px;
-}
-.controls {
-  position: fixed;
-  width: 96%;
-  left: 19px;
-  z-index: 1;
-}
-.filters {
-  font-size: 70%;
-  position: fixed;
-  top: 45px;
-  li {
-    margin-left: -15px;
-  }
-  p {
-    margin: 2px;
-  }
-  .options,
-  .portswhitelist {
-    li:first-child {
-      font-size: 120%;
-      font-weight: bold;
-      list-style: none;
-      margin-left: -34px;
-    }
-  }
-}
-.p1 {
-  width: 10px;
-  height: 10px;
-  background: #ff6666;
-  position: absolute;
-}
-.p2 {
-  width: 10px;
-  height: 10px;
-  background: #ff6666;
-  position: absolute;
-  bottom: 200px;
-  right: 500px;
-}
-.filters {
-  input[type="text"] {
-    width: 95%;
-  }
-}
+
 // flexbox
 .fbx {
+  flex-direction: row;
   &.drcol {
     flex-direction: column;
+  }
+  &.space-bet {
+    //justify-content: space-between;
   }
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
-  .br {
-    padding: 1px;
-    border-radius: 10px;
-    border: 1px solid black;
-    margin: 1px;
-    .name {
-      font-size: 70%;
-    }
+  .name {
+    font-size: 70%;
   }
 }
-
-.connection {
-  align-items: center;
-  justify-content: left;
-  .sender {
-    &::after {
-      content: "⤚";
-      color: #ff6666;
-      float: right;
-      bottom: 30px;
-      position: relative;
-      left: 15px;
-    }
-  }
-  .connectors {
-    top: 10px;
-    position: relative;
-    margin-left: 11px;
-    .connector {
-      width: 200px;
-      height: 22px;
-      border-top: 1px solid #ff6666;
-      border-left: 1px solid #ff6666;
-      &:last-child {
-        border-left: 0;
-      }
-      &::after {
-        content: "►";
-        float: right;
-        top: -10px;
-        position: relative;
-        left: 4px;
-        color: #ff6666;
-      }
-    }
-  }
-}
-
-.partitions {
-  // flex-direction: column;
-  .partition {
-    background-color: #00b8ff;
-    border: 1px solid black;
-  }
-}
-//clusters
-.clusters {
-  .cluster {
-    background-color: #00415a;
-    border: 1px solid black;
-  }
-}
-
-.connected .name {
-  color: #ffeead;
-}
-
-//components
-.components {
-  flex-direction: row;
-}
-.component,
-.receiver,
-.sender {
-  background-color: #00719c;
+.br {
+  padding: 1px;
+  //border-radius: 10px;
   border: 1px solid black;
-  &.connected {
-    border: 1px solid #ffeead;
-  }
+  margin: 1px;
 }
-
-//ports
-.port {
-  background-color: #009bd6;
-  .tooltiptext {
-    font-size: 20px;
-    text-align: left;
-  }
-}
-
-.vdp {
-  background-color: #00b8ff;
-  border: 1px solid black;
-  cursor: pointer;
-}
-
-.connected {
-  border: 1px solid #ffeead !important;
-}
-
-.con-in,
-.con-out {
-  cursor: pointer;
-  margin: 2px;
-  font-size: 12px;
-  margin: 0 2px;
-  border: 1px solid;
-  text-align: center;
-  // background-color: yellowgreen;
-  display: inline-block;
-  &:hover {
-    color: yellow;
-  }
+.mrgnLR10 {
+  margin: 0 10px;
 }
 
 //tooltips
@@ -216,4 +69,118 @@ body {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+.rows{
+  width:100%;
+  display:block;
+}
+.column{
+    width:100%;
+    display:inline-block;
+}
+.theLabels{
+  width:30%;
+  float:left;
+}
+.theInputs{
+  width:60%;
+  float:right;
+}
+
+.components {
+  width: 600px;
+}
+.filters {
+  width: 200px;
+}
+.fbx .entity {
+  border-radius: 5px;
+  background-color: cornsilk;
+  text-align: center;
+  padding: 5px;
+  font-size: 10px;
+  min-width: 120px;
+  min-height: 50px;
+  margin: 3px;
+  &.selected {
+    border-style: dashed;
+    border-width: 2px;
+  }
+}
+.hide {
+  display: none;
+  &.expand, .expand {
+      display: inline-block;
+  }
+}
+.alignItemsCenter {
+  align-items: center;
+}
+.port {
+  border-radius: 5px;
+  background-color: burlywood;
+  text-align: center;
+  padding: 5px;
+  font-size: 10px;
+  width: 120px;
+  height: 50px;
+}
+
+.explorer {
+  width: 200px;
+  input {
+    width: 130px;
+  }
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.close {
+  cursor: pointer;
+  // position: absolute;
+  // right: 32px;
+  // top: 32px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+  border: 1px solid;
+  padding: 0 4px;
+}
+.close:hover {
+  opacity: 1;
+}
+.close:before, .close:after {
+  // position: absolute;
+  // left: 15px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
+}
+
+button.newSide {
+  position: relative;
+  top: -6px;
+}
+
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 100%;               
+  background-color:black;
+  height: 1px;
+}
+
+.editing {
+  border: 2px dashed yellowgreen;
 }
